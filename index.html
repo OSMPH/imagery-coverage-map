@@ -33,8 +33,8 @@ function init() {
    updatePermalink();
 
    // Create the OSM Mapnik tile layer
-   var openstreetmapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-   var osmLayer = new L.TileLayer(openstreetmapURL);
+   var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+   var osmLayer = new L.TileLayer(osmURL);
 
    // Create the MapQuest tile layer
    var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
@@ -95,7 +95,7 @@ function init() {
    // Create tile layer control data
    var tilesLayers = {
       "OSM Mapnik" : osmLayer,
-      "Mapquest"   : mapquestLayer
+      "MapQuest"   : mapquestLayer
    };
 
    // Add layer control to map   
@@ -201,7 +201,7 @@ p {
 <div id="infopane">
 <h1>OSMPH Imagery Coverage Map</h1>
 <p>This is a map that shows the coverage of satellite/aerial imagery in the
-Philippines that is available for tracing by OpenStreetmap contributors.
+Philippines that is available for tracing by OpenStreetMap contributors.
 <a href="http://wiki.openstreetmap.org/wiki/Philippines/High-resolution_imagery">More information</a>.</p>
 <ul>
 <li><a id="permalink" href="#">Permalink</a></li>
