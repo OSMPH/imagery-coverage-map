@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>OpenStreetMap Philippines Imagery Coverage Map</title>
+<link rel="stylesheet" href="dist/leaflet.css" />
+<!--[if lte IE 8]><link rel="stylesheet" href="dist/leaflet.ie.css" /><![endif]-->
+<script src="dist/leaflet.js"></script>
+<script src="data.js"></script>
+<script type="text/javascript">
+
+var Map;
+
+window.onload = init;
+function init() {
+
+   // Specify default map location
+   var initLat  = 12.5;
+   var initLng  = 122;
+   var initZoom = 6;
+   
+   // Obtain map location from URL fragment (permalink) if any
+   if (location.hash) {
+      var coords = location.hash.split(',');
+      initLat  = Number(coords[0].substr(1));
+      initLng  = Number(coords[1]);
+      initZoom = Number(coords[2]);
+   }
+
+   // Initialize the map and permalink
+   Map = new L.Map('map', {
+      center : new L.LatLng(initLat, initLng),
+      zoom   : initZoom
+   });
+   updatePermalink();
+
+   // Create the OSM Mapnik tile layer
+   var openstreetmapURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+   var osmLayer = new L.TileLayer(openstreetmapURL);
+
+   // Create the MapQuest tile layer
+   var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
+   var mapquestLayer = new L.TileLayer(mapquestURL, {
+      subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
+   });
+
+   // Add the MapQuest tile layer to the map
+   Map.addLayer(mapquestLayer);
+
+   // Parse the coverage data
+   var i, j, k, l, m;
+   var outlineGroups = new Array;
+   for (i = 0; i < data.length; i++) {
+   
+      var outlinesLayer = new L.LayerGroup();
+
+      var groupData = data[i];
+      for (j = 0; j < groupData.polys.length; j++) {
+
+         var polysList = new Array;
+
+         var outlineData = groupData.polys[j].latlons;
+         for (k = 0; k < outlineData.length; k++) {
+
+            var latLngList = new Array;
+
+            var polyData = outlineData[k];
+            for (l = 0; l < polyData.length; l++) {
+               var latLng = new L.LatLng(polyData[l][0], polyData[l][1]);
+               latLngList.push(latLng);
+            }
+            polysList.push(latLngList);
+         }
+         
+         var multipoly = new L.Polygon(polysList, {
+            stroke      : true,
+            color       : groupData.polys[j].color,
+            opacity     : 0.6,
+            weight      : 1,
+            fill        : true,
+            fillColor   : groupData.polys[j].color,
+            fillOpacity : 0.3,
+            clickable   : false,
+         });
+         
+         outlinesLayer.addLayer(multipoly);
+      }
+      
+      outlineGroups[groupData.group] = outlinesLayer;
+
+      // Bing is shown by default
+      if (groupData.group.match(/^Bing/)) {
+         Map.addLayer(outlinesLayer);
+      }
+   }
+
+   // Create tile layer control data
+   var tilesLayers = {
+      "OSM Mapnik" : osmLayer,
+      "Mapquest"   : mapquestLayer
+   };
+
+   // Add layer control to map   
+   var layersControl = new L.Control.Layers(tilesLayers, outlineGroups);
+   Map.addControl(layersControl);
+
+   // Add event handlers to update the permalink target
+   Map.on('zoomend', updatePermalink);
+   Map.on('moveend', updatePermalink);
+
+   // Add event handlers for the edit buttons
+   document.getElementById('editpotlatch').onclick = editInPotlatch;
+   document.getElementById('editjosm').onclick = editInJosm;
+}
+
+function updatePermalink() {
+   var latLng = Map.getCenter();
+   var lat = latLng.lat;
+   var lng = latLng.lng;
+   var zoom = Map.getZoom();
+   lat = Math.floor(lat * 1000000) / 1000000;
+   lng = Math.floor(lng * 1000000) / 1000000;
+   document.getElementById('permalink').href = '#' + lat + ',' + lng + ',' + zoom;
+   document.getElementById('osmlink').href = 'http://osm.org/?lat=' + lat + '&lon=' + lng + '&zoom=' + zoom;
+}
+
+function editInPotlatch() {
+   if (Map.getZoom() > 13) {
+      var latLng = Map.getCenter();
+      var lat = latLng.lat;
+      var lng = latLng.lng;
+      var zoom = Map.getZoom();
+      var url = 'http://osm.org/edit?lat=' + lat + '&lon=' + lng + '&zoom=' + zoom;
+      window.open(url, 'popup');
+   }
+   else {
+      alert('Please zoom in some more.');
+   }
+}
+
+function editInJosm() {
+   var bounds = Map.getBounds();
+   var minLat = bounds.getSouthWest().lat;
+   var maxLat = bounds.getNorthEast().lat;
+   var minLng = bounds.getSouthWest().lng;
+   var maxLng = bounds.getNorthEast().lng;
+   // There is an API limit of 0.25 square degrees
+   if (((maxLat - minLat) * (maxLng - minLng)) < 0.25) {
+      var url = 'http://127.0.0.1:8111/load_and_zoom?left='
+         + minLng + '&right=' + maxLng + '&top=' + maxLat + '&bottom=' + minLat;
+      window.open(url, 'popup');
+   }
+   else {
+      alert('Please zoom in some more.');
+   }
+};
+
+</script>
+<style type="text/css">
+
+html, body {
+ margin: 0;
+ padding: 0;
+}
+
+#infopane {
+ float: left;
+ width: 150px;
+ height: 100%;
+ overflow: auto;
+ background: #ccc;
+ font-size: 11px;
+ color: #444;
+}
+
+h1 {
+ margin: 0;
+ padding: 10px;
+ font-size: 14px;
+ background: #888;
+ color: white;
+}
+
+p {
+ margin: 10px;
+}
+
+#credits {
+ border-top: 1px solid #AAA;
+ padding-top: 5px;
+ font-size: 9px;
+ color: #888;
+}
+
+#map {
+ margin-left: 150px;
+ height: 100%;
+}
+
+</style>
+</head>
+<body>
+<div id="infopane">
+<h1>OSMPH Imagery Coverage Map</h1>
+<p>This is a map that shows the coverage of satellite/aerial imagery in the
+Philippines that is available for tracing by OpenStreetmap contributors.
+<a href="http://wiki.openstreetmap.org/wiki/Philippines/High-resolution_imagery">More information</a>.</p>
+<ul>
+<li><a id="permalink" href="#">Permalink</a></li>
+<li><a id="osmlink" href="#">Link to OSM</a></li>
+<li><a id="editpotlatch" href="#">Edit in Potlatch</a></li>
+<li><a id="editjosm" href="#">Edit in JOSM</a></li>
+</ul>
+<p id="credits">Map data &copy; OpenStreetMap contributors (CC-BY-SA 2.0);
+map images &copy; OpenStreetMap and MapQuest; website &copy; Eugene Alvin Villar</p>
+</div>
+<div id="map"></div>
+</body>
+</html>
