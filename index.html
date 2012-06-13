@@ -4,9 +4,12 @@
 <link rel="stylesheet" href="dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="dist/leaflet.ie.css" /><![endif]-->
 <script src="dist/leaflet.js"></script>
+<script src="dist/TileLayer.Bing0.js"></script>
 <script src="data.js"></script>
 <script type="text/javascript">
 
+var bingkey = 'Ahxau5mtl944aCyAb8tfmrLebWENWZDXEmMIQWRaRQjTho2U0NkHqAUpcT1nTW1v';
+var BingAttribution = '';
 var Map;
 
 window.onload = init;
@@ -42,9 +45,17 @@ function init() {
       subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
    });
 
+   // Bing
+
+   var BingAerialWithLabels = new L.TileLayer.Bing(bingkey, "AerialWithLabels",
+   {
+    maxZoom: 17,
+   // attribution: BingAttribution
+   });
+
    // Add the MapQuest tile layer to the map
    Map.addLayer(mapquestLayer);
-
+   
    // Parse the coverage data
    var i, j, k, l, m;
    var outlineGroups = new Array;
@@ -94,6 +105,7 @@ function init() {
 
    // Create tile layer control data
    var tilesLayers = {
+      "Bing Aerial": BingAerialWithLabels,
       "OSM Mapnik" : osmLayer,
       "MapQuest"   : mapquestLayer
    };
