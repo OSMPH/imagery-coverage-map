@@ -6258,7 +6258,7 @@ var data = [
       ]
    },
    {
-      "group" : "Bing Batch 7 (June 2012)",
+      "group" : "Bing Batch 8 (June 2012)",
       "polys" : [
          {
             "latlons" : [
