@@ -4,12 +4,11 @@
 <link rel="stylesheet" href="dist/leaflet.css" />
 <!--[if lte IE 8]><link rel="stylesheet" href="dist/leaflet.ie.css" /><![endif]-->
 <script src="dist/leaflet.js"></script>
-<script src="dist/TileLayer.Bing0.js"></script>
+<script src="dist/TileLayer.Bing.js"></script>
+<script src="bingkey.js"></script>
 <script src="data.js"></script>
 <script type="text/javascript">
 
-var bingkey = 'Ahxau5mtl944aCyAb8tfmrLebWENWZDXEmMIQWRaRQjTho2U0NkHqAUpcT1nTW1v';
-var BingAttribution = '';
 var Map;
 
 window.onload = init;
@@ -37,21 +36,22 @@ function init() {
 
    // Create the OSM Mapnik tile layer
    var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-   var osmLayer = new L.TileLayer(osmURL);
+   var osmLayer = new L.TileLayer(osmURL, {
+      attribution : 'Tiles and map data &copy; OSM contributors (CC-BY-SA 2.0)',
+   });
 
    // Create the MapQuest tile layer
    var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
    var mapquestLayer = new L.TileLayer(mapquestURL, {
       subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
+      attribution : 'Tiles &copy; MapQuest; Map data &copy; OSM contributors (CC-BY-SA 2.0)',
    });
 
-   // Bing
-
-   var BingAerialWithLabels = new L.TileLayer.Bing(bingkey, "AerialWithLabels",
-   {
-    maxZoom: 17,
-   // attribution: BingAttribution
-   });
+   // Create the Bing Maps Aerial tile layers
+   if (typeof bingKey != 'undefined') {
+      var bingLayer        = new L.TileLayer.Bing(bingKey, 'Aerial',           {});
+      var bingLabeledLayer = new L.TileLayer.Bing(bingKey, 'AerialWithLabels', {});
+   };
 
    // Add the MapQuest tile layer to the map
    Map.addLayer(mapquestLayer);
@@ -105,10 +105,13 @@ function init() {
 
    // Create tile layer control data
    var tilesLayers = {
-      "Bing Aerial": BingAerialWithLabels,
       "OSM Mapnik" : osmLayer,
       "MapQuest"   : mapquestLayer
    };
+   if (typeof bingKey != 'undefined') {
+      tilesLayers["Bing Aerial"          ] = bingLayer;
+      tilesLayers["Bing Aerial (labeled)"] = bingLabeledLayer;
+   }
 
    // Add layer control to map   
    var layersControl = new L.Control.Layers(tilesLayers, outlineGroups);
