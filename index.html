@@ -44,7 +44,13 @@ function init() {
    var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
    var mapquestLayer = new L.TileLayer(mapquestURL, {
       subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
-      attribution : 'Tiles &copy; MapQuest; Map data &copy; OSM contributors (CC-BY-SA 2.0)',
+      attribution : 'Tiles &copy; <a href="http://open.mapquest.com/">MapQuest</a>; Map data &copy; OSM contributors (CC-BY-SA 2.0)',
+   });
+
+   // Create the Stamen Toner tile layer
+   var stamenTonerURL = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
+   var stamenTonerLayer = new L.TileLayer(stamenTonerURL, {
+      attribution : 'Tiles &copy; <a href="http://maps.stamen.com/#toner">Stamen</a> (CC-BY 3.0); Map data &copy; OSM contributors (CC-BY-SA 2.0)',
    });
 
    // Create the Bing Maps Aerial tile layers
@@ -105,8 +111,9 @@ function init() {
 
    // Create tile layer control data
    var tilesLayers = {
-      "OSM Mapnik" : osmLayer,
-      "MapQuest"   : mapquestLayer
+      "OSM Mapnik"   : osmLayer,
+      "MapQuest"     : mapquestLayer,
+      "Stamen Toner" : stamenTonerLayer,
    };
    if (typeof bingKey != 'undefined') {
       tilesLayers["Bing Aerial"          ] = bingLayer;
