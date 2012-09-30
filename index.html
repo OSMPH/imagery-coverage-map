@@ -37,20 +37,20 @@ function init() {
    // Create the OSM Mapnik tile layer
    var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
    var osmLayer = new L.TileLayer(osmURL, {
-      attribution : 'Tiles and map data &copy; OSM contributors (CC-BY-SA 2.0)',
+      attribution : 'Tiles &copy; OpenStreetMap (CC-BY-SA 2.0)',
    });
 
    // Create the MapQuest tile layer
    var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
    var mapquestLayer = new L.TileLayer(mapquestURL, {
       subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
-      attribution : 'Tiles &copy; <a href="http://open.mapquest.com/">MapQuest</a>; Map data &copy; OSM contributors (CC-BY-SA 2.0)',
+      attribution : 'Tiles &copy; <a href="http://open.mapquest.com/">MapQuest</a>',
    });
 
    // Create the Stamen Toner tile layer
    var stamenTonerURL = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
    var stamenTonerLayer = new L.TileLayer(stamenTonerURL, {
-      attribution : 'Tiles &copy; <a href="http://maps.stamen.com/#toner">Stamen</a> (CC-BY 3.0); Map data &copy; OSM contributors (CC-BY-SA 2.0)',
+      attribution : 'Tiles &copy; <a href="http://maps.stamen.com/#toner">Stamen</a> (CC-BY 3.0)',
    });
 
    // Create the Bing Maps Aerial tile layers
@@ -185,7 +185,7 @@ html, body {
 
 #infopane {
  float: left;
- width: 150px;
+ width: 200px;
  height: 100%;
  overflow: auto;
  background: #ccc;
@@ -205,11 +205,19 @@ p {
  margin: 10px;
 }
 
+a {
+ color: #48F;
+}
+
 #credits {
  border-top: 1px solid #AAA;
  padding-top: 5px;
  font-size: 9px;
  color: #888;
+}
+
+#credits a {
+ color: #8AF;
 }
 
 #map {
@@ -231,8 +239,7 @@ Philippines that is available for tracing by OpenStreetMap contributors.
 <li><a id="editpotlatch" href="#">Edit in Potlatch</a></li>
 <li><a id="editjosm" href="#">Edit in JOSM</a></li>
 </ul>
-<p id="credits">Map data &copy; OpenStreetMap contributors (CC-BY-SA 2.0);
-map images &copy; OpenStreetMap and MapQuest; website &copy; Eugene Alvin Villar</p>
+<p id="credits">Map data &copy; OpenStreetMap contributors (<a href="http://www.openstreetmap.org/copyright">terms</a>). <a href="https://github.com/OSMPH/Imagery_Coverage_Map">Fork this website on Github</a>.</p>
 </div>
 <div id="map"></div>
 </body>
