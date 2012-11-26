@@ -1,5 +1,31 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' upload='false' generator='JOSM'>
+  <node id='-8046' action='modify' visible='true' lat='6.723200997289773' lon='124.9621440876127' />
+  <node id='-8044' action='modify' visible='true' lat='6.689851209270933' lon='125.14683167615385' />
+  <node id='-8042' action='modify' visible='true' lat='6.173294580419263' lon='125.14487222805411' />
+  <node id='-8041' action='modify' visible='true' lat='6.198619087552381' lon='124.96368090965176' />
+  <node id='-8034' action='modify' visible='true' lat='7.962709217538117' lon='124.41827898529787' />
+  <node id='-8029' action='modify' visible='true' lat='8.024659436399672' lon='124.45177409851935' />
+  <node id='-8001' action='modify' visible='true' lat='8.691393000287864' lon='124.42824468148096' />
+  <node id='-7999' action='modify' visible='true' lat='8.025275066722141' lon='124.41890398509672' />
+  <node id='-7997' action='modify' visible='true' lat='8.027692469044645' lon='124.29949167336686' />
+  <node id='-7995' action='modify' visible='true' lat='5.952150602215392' lon='124.30278214595684' />
+  <node id='-7993' action='modify' visible='true' lat='5.951939458101492' lon='124.45037576325501' />
+  <node id='-7991' action='modify' visible='true' lat='7.959789538871272' lon='124.45175563885722' />
+  <node id='-7989' action='modify' visible='true' lat='7.947143505678284' lon='124.6065857360629' />
+  <node id='-7988' action='modify' visible='true' lat='8.676252255716772' lon='124.62054370850058' />
+  <node id='-7973' action='modify' visible='true' lat='15.962904856858335' lon='121.84075216483438' />
+  <node id='-7971' action='modify' visible='true' lat='15.940545427990362' lon='122.01821539648255' />
+  <node id='-7969' action='modify' visible='true' lat='17.022511837891876' lon='122.02425739788654' />
+  <node id='-7968' action='modify' visible='true' lat='17.05000778779856' lon='121.83935887760389' />
+  <node id='-7957' action='modify' visible='true' lat='13.099630688698696' lon='119.98832071308232' />
+  <node id='-7955' action='modify' visible='true' lat='13.098143149421126' lon='119.98961889980622' />
+  <node id='-7953' action='modify' visible='true' lat='13.098309309396283' lon='120.98033690708213' />
+  <node id='-7951' action='modify' visible='true' lat='13.099413751076153' lon='120.9818488356586' />
+  <node id='-7949' action='modify' visible='true' lat='14.000418875005792' lon='120.98174084076028' />
+  <node id='-7947' action='modify' visible='true' lat='14.001676313132823' lon='120.98039090453128' />
+  <node id='-7945' action='modify' visible='true' lat='14.001781099332812' lon='119.98969970479943' />
+  <node id='-7944' action='modify' visible='true' lat='14.000261694756109' lon='119.98840376601959' />
   <node id='-7929' action='modify' visible='true' lat='9.943610513353551' lon='118.55823560804751' />
   <node id='-7927' action='modify' visible='true' lat='9.925511508372766' lon='118.38410733356406' />
   <node id='-7925' action='modify' visible='true' lat='9.047693985487781' lon='118.3862353406788' />
@@ -3020,6 +3046,59 @@
   <node id='-1396' visible='true' lat='12.48478' lon='124.44014' />
   <node id='-1394' visible='true' lat='17.68345' lon='121.00186' />
   <node id='-1392' visible='true' lat='17.68057' lon='121.1368' />
+  <way id='-8043' action='modify' visible='true'>
+    <nd ref='-8041' />
+    <nd ref='-8042' />
+    <nd ref='-8044' />
+    <nd ref='-8046' />
+    <nd ref='-8041' />
+    <tag k='name' v='Bing Batch 10 (Nov 2012)' />
+    <tag k='outline' v='imagery' />
+  </way>
+  <way id='-8027' action='modify' visible='true'>
+    <nd ref='-7991' />
+    <nd ref='-7993' />
+    <nd ref='-7995' />
+    <nd ref='-7997' />
+    <nd ref='-7999' />
+    <nd ref='-8029' />
+    <nd ref='-7991' />
+    <tag k='name' v='Bing Batch 10 (Nov 2012)' />
+    <tag k='outline' v='imagery' />
+  </way>
+  <way id='-7990' action='modify' visible='true'>
+    <nd ref='-7999' />
+    <nd ref='-8001' />
+    <nd ref='-7988' />
+    <nd ref='-7989' />
+    <nd ref='-7991' />
+    <nd ref='-8034' />
+    <nd ref='-7999' />
+    <tag k='name' v='Bing Batch 10 (Nov 2012)' />
+    <tag k='outline' v='imagery' />
+  </way>
+  <way id='-7970' action='modify' visible='true'>
+    <nd ref='-7968' />
+    <nd ref='-7969' />
+    <nd ref='-7971' />
+    <nd ref='-7973' />
+    <nd ref='-7968' />
+    <tag k='name' v='Bing Batch 10 (Nov 2012)' />
+    <tag k='outline' v='imagery' />
+  </way>
+  <way id='-7946' action='modify' visible='true'>
+    <nd ref='-7944' />
+    <nd ref='-7945' />
+    <nd ref='-7947' />
+    <nd ref='-7949' />
+    <nd ref='-7951' />
+    <nd ref='-7953' />
+    <nd ref='-7955' />
+    <nd ref='-7957' />
+    <nd ref='-7944' />
+    <tag k='name' v='Bing Batch 10 (Nov 2012)' />
+    <tag k='outline' v='imagery' />
+  </way>
   <way id='-7926' action='modify' visible='true'>
     <nd ref='-7924' />
     <nd ref='-7925' />
@@ -7498,10 +7577,6 @@
   <way id='-7402' visible='true'>
     <nd ref='-5358' />
     <nd ref='-1850' />
-  </way>
-  <way id='-7400' visible='true'>
-    <nd ref='-1596' />
-    <nd ref='-1594' />
   </way>
   <relation id='-7804' visible='true'>
     <member type='way' ref='-7702' role='outer' />
