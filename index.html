@@ -1,24 +1,26 @@
 <html>
 <head>
+<meta charset="UTF-8">
 <title>OpenStreetMap Philippines Imagery Coverage Map</title>
-<link rel="stylesheet" href="dist/leaflet.css" />
-<!--[if lte IE 8]><link rel="stylesheet" href="dist/leaflet.ie.css" /><![endif]-->
-<script src="dist/leaflet.js"></script>
-<script src="dist/TileLayer.Bing.js"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
+<![endif]-->
+<script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
+<script src="TileLayer.Bing.js"></script>
 <script src="bingkey.js"></script>
 <script src="data.js"></script>
 <script type="text/javascript">
 
 var Map;
 
-window.onload = init;
-function init() {
+window.onload = function() {
 
    // Specify default map location
    var initLat  = 12.5;
    var initLng  = 122;
    var initZoom = 6;
-   
+
    // Obtain map location from URL fragment (permalink) if any
    if (location.hash) {
       var coords = location.hash.split(',');
@@ -34,11 +36,15 @@ function init() {
    });
    updatePermalink();
 
+   // Declare tile layer control data object
+   var tilesLayers = new Object;
+
    // Create the OSM Mapnik tile layer
    var osmURL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
    var osmLayer = new L.TileLayer(osmURL, {
       attribution : 'Tiles &copy; OpenStreetMap (CC-BY-SA 2.0)',
    });
+   tilesLayers["OSM Default"] = osmLayer;
 
    // Create the MapQuest tile layer
    var mapquestURL = 'http://{s}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png';
@@ -46,78 +52,53 @@ function init() {
       subdomains  : ['otile1', 'otile2', 'otile3', 'otile4'],
       attribution : 'Tiles &copy; <a href="http://open.mapquest.com/">MapQuest</a>',
    });
+   tilesLayers["MapQuest"] = mapquestLayer;
 
    // Create the Stamen Toner tile layer
    var stamenTonerURL = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
    var stamenTonerLayer = new L.TileLayer(stamenTonerURL, {
       attribution : 'Tiles &copy; <a href="http://maps.stamen.com/#toner">Stamen</a> (CC-BY 3.0)',
    });
+   tilesLayers["Stamen Toner"] = stamenTonerLayer;
 
    // Create the Bing Maps Aerial tile layers
    if (typeof bingKey != 'undefined') {
       var bingLayer        = new L.TileLayer.Bing(bingKey, 'Aerial',           {});
       var bingLabeledLayer = new L.TileLayer.Bing(bingKey, 'AerialWithLabels', {});
-   };
-
-   // Add the MapQuest tile layer to the map
-   Map.addLayer(mapquestLayer);
-   
-   // Parse the coverage data
-   var i, j, k, l, m;
-   var outlineGroups = new Array;
-   for (i = 0; i < data.length; i++) {
-   
-      var outlinesLayer = new L.LayerGroup();
-
-      var groupData = data[i];
-      for (j = 0; j < groupData.polys.length; j++) {
-
-         var polysList = new Array;
-
-         var outlineData = groupData.polys[j].latlons;
-         for (k = 0; k < outlineData.length; k++) {
-
-            var latLngList = new Array;
-
-            var polyData = outlineData[k];
-            for (l = 0; l < polyData.length; l++) {
-               var latLng = new L.LatLng(polyData[l][0], polyData[l][1]);
-               latLngList.push(latLng);
-            }
-            polysList.push(latLngList);
-         }
-         
-         var multipoly = new L.Polygon(polysList, {
-            stroke      : true,
-            color       : groupData.polys[j].color,
-            opacity     : 0.6,
-            weight      : 1,
-            fill        : true,
-            fillColor   : groupData.polys[j].color,
-            fillOpacity : 0.3,
-            clickable   : false,
-         });
-         
-         outlinesLayer.addLayer(multipoly);
-      }
-      
-      outlineGroups[groupData.group] = outlinesLayer;
-
-      // Bing is shown by default
-      if (groupData.group.match(/^Bing/)) {
-         Map.addLayer(outlinesLayer);
-      }
-   }
-
-   // Create tile layer control data
-   var tilesLayers = {
-      "OSM Mapnik"   : osmLayer,
-      "MapQuest"     : mapquestLayer,
-      "Stamen Toner" : stamenTonerLayer,
-   };
-   if (typeof bingKey != 'undefined') {
       tilesLayers["Bing Aerial"          ] = bingLayer;
       tilesLayers["Bing Aerial (labeled)"] = bingLabeledLayer;
+   };
+
+   // Add the MapQuest tile layer to the map (default)
+   Map.addLayer(mapquestLayer);
+
+   // Process the imagery coverage data
+   var outlineGroups = [];
+   for (i = 0; i < data.features.length; i++) {
+
+      var feature = data.features[i];
+
+      var outlinesLayer = L.geoJson(feature, {
+         style: function(feature) {
+            return {
+               stroke      : true,
+               color       : feature.properties.color,
+               opacity     : 0.6,
+               weight      : 1,
+               fill        : true,
+               fillColor   : feature.properties.color,
+               fillOpacity : 0.3,
+               clickable   : false,
+            };
+         }
+      });
+
+      outlineGroups[feature.id] = outlinesLayer;
+
+      // Bing is shown by default
+      if (feature.id.match(/^Bing/)) {
+         Map.addLayer(outlinesLayer);
+      }
    }
 
    // Add layer control to map   
@@ -130,7 +111,7 @@ function init() {
 
    // Add event handlers for the edit buttons
    document.getElementById('editpotlatch').onclick = editInPotlatch;
-   document.getElementById('editjosm').onclick = editInJosm;
+   document.getElementById('editjosm'    ).onclick = editInJosm;
 }
 
 function updatePermalink() {
@@ -147,10 +128,10 @@ function updatePermalink() {
 function editInPotlatch() {
    if (Map.getZoom() > 13) {
       var latLng = Map.getCenter();
-      var lat = latLng.lat;
-      var lng = latLng.lng;
-      var zoom = Map.getZoom();
-      var url = 'http://osm.org/edit?lat=' + lat + '&lon=' + lng + '&zoom=' + zoom;
+      var lat    = latLng.lat;
+      var lng    = latLng.lng;
+      var zoom   = Map.getZoom();
+      var url    = 'http://osm.org/edit?lat=' + lat + '&lon=' + lng + '&zoom=' + zoom;
       window.open(url, 'popup');
    }
    else {

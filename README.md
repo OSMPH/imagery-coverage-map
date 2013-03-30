@@ -5,7 +5,7 @@ The **OSMPH Imagery Coverage Map** creates an HTML-based slippy map that shows t
 The basic workflow for publishing such a map is as follows:
 
 1. Create/edit the OSM file containing the imagery outlines.
-2. Use **osm2json.pl** to convert the OSM file to a JavaScript file containing the JSON representation of the data.
+2. Use **osm2geojson.pl** to convert the OSM file to a JavaScript file containing the GeoJSON representation of the data.
 3. Upload the files to a web server.
 
 
@@ -24,24 +24,24 @@ The basic workflow for publishing such a map is as follows:
 
 4. The OSM file must be saved as a basic OSM file (not a change or history OSM file) and with the filename "data.osm".
 
-### Use osm2json.pl to convert the OSM file
+### Use osm2geojson.pl to convert the OSM file
 
-1. Run **osm2json.pl** and pipe the output to "data.js".
+1. Run **osm2geojson.pl**. This script will open the data.osm file in the current directory and output a data.js file in the same directory. This script requires Perl 5.10 and above to execute properly.
 
-2. Test the created file by opening the local index.html in a web browser. The Leaflet JS files must be stored in a subdirectory named "dist".
+2. Test the created file by opening the local index.html in a web browser. The index.html and the data.js file has to be in the same directory. You need to have Internet access since the HTML file uses the Leaflet library, which is fetched from the Leaflet CDN.
 
 ### Upload the files
 
-1. Upload index.html, data.js, and the dist subdirectory to a publicly-accessible web server.
+1. Upload index.html and data.js to a publicly-accessible web server.
 
 2. If you want the Bing Maps Aerial base layers, do the following:
 
-   1. Obtain a [Bing Maps API key](http://www.bingmapsportal.com/), then create a file named "bingkey.js" with the following code as its content (placing your API Key inside the quotes):
+   1. Obtain a [Bing Maps API key](http://www.bingmapsportal.com/), then create a file named "bingkey.js" with the code below as its content (placing your API Key inside the quotes). Place this file in the same directory as index.html and data.js.
 
       ```javascript
       bingKey = "<Bing Maps API Key>";
       ```
 
-   2. Download the [Leaflet Bing layer JavaScript](https://gist.github.com/1221998) under the filename "TileLayer.Bing.js" then place a copy into the dist subdirectory.
+   2. Download the [Leaflet Bing layer JavaScript](https://gist.github.com/1221998) under the filename "TileLayer.Bing.js" then place a copy into the same directory as index.html and data.js.
 
-3. Test by loading the index.html file in a web browser.
+3. Test by accessing the uploaded index.html file in a web browser.
