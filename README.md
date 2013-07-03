@@ -28,7 +28,7 @@ The basic workflow for publishing such a map is as follows:
 
 1. Run **osm2geojson.pl**. This script will open the data.osm file in the current directory and output a data.geojson file in the same directory. This script requires Perl 5.10 and above to execute properly.
 
-2. Test the created file by opening the local index.html in a web browser (preferably Firefox). The index.html and the data.geojson file has to be in the same directory. You need to have Internet access since the HTML file uses the Leaflet library, which is fetched from the Leaflet CDN.
+2. Test the created file by opening the local index.html file in a web browser (preferably Firefox). The index.html and the data.geojson files need to be in the same directory. You need to have Internet access since the HTML file uses the Leaflet library, which is fetched from the Leaflet CDN.
 
 ### Upload the files
 
@@ -36,12 +36,12 @@ The basic workflow for publishing such a map is as follows:
 
 2. If you want the Bing Maps Aerial base layers, do the following:
 
-   1. Obtain a [Bing Maps API key](http://www.bingmapsportal.com/), then create a file named "bingkey.js" with the code below as its content (placing your API Key inside the quotes). Place this file in the same directory as index.html and data.js.
+   1. Obtain a [Bing Maps API key](http://www.bingmapsportal.com/), then create a file named "bingkey.js" with the code below as its content (placing your API Key inside the quotes). Place this file in the same directory as index.html and data.geojson.
 
       ```javascript
       bingKey = "<Bing Maps API Key>";
       ```
 
-   2. Download the [Leaflet Bing layer JavaScript](https://gist.github.com/1221998) under the filename "TileLayer.Bing.js" then place a copy into the same directory as index.html and data.js.
+   2. Download the [Leaflet Bing layer JavaScript](https://gist.github.com/1221998) under the filename "TileLayer.Bing.js" then place a copy into the same directory as index.html and data.geojson.
 
 3. Test by accessing the uploaded index.html file in a web browser.
