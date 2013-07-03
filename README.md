@@ -18,6 +18,7 @@ The basic workflow for publishing such a map is as follows:
 2. Each outline polygon should be closed and have the following tags:
 
    `name=*`  - The name of the group to which this outline belongs (e.g. "Bing")
+
    `color=*` - The HTML color for this outline. This can be any recognized CSS color string such as "`red`" or "`#FFFFFF`"
 
 3. For multipolygons, create a relation with the tag `type=multipolygon` and have a single `role=outer` way and any number of `role=inner` ways. Tag the outer way in the same way as in step 2 and there is no need to add tags to the inner ways or the relation itself. It is also important that the outer and inner ways are closed polygons each.
