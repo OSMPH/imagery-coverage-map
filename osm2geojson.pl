@@ -144,5 +144,5 @@ my %Json = (
 );
 
 # Output GeoJSON
-open my $fh, '>', 'data.js' or die ($!);
-print {$fh} 'var data = ', JSON->new->pretty->encode(\%Json);
+open my $fh, '>', 'data.geojson' or die ($!);
+print {$fh} JSON->new->pretty->encode(\%Json);

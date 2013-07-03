@@ -5,7 +5,7 @@ The **OSMPH Imagery Coverage Map** creates an HTML-based slippy map that shows t
 The basic workflow for publishing such a map is as follows:
 
 1. Create/edit the OSM file containing the imagery outlines.
-2. Use **osm2geojson.pl** to convert the OSM file to a JavaScript file containing the GeoJSON representation of the data.
+2. Use **osm2geojson.pl** to convert the OSM file to a GeoJSON file.
 3. Upload the files to a web server.
 
 
@@ -26,13 +26,13 @@ The basic workflow for publishing such a map is as follows:
 
 ### Use osm2geojson.pl to convert the OSM file
 
-1. Run **osm2geojson.pl**. This script will open the data.osm file in the current directory and output a data.js file in the same directory. This script requires Perl 5.10 and above to execute properly.
+1. Run **osm2geojson.pl**. This script will open the data.osm file in the current directory and output a data.geojson file in the same directory. This script requires Perl 5.10 and above to execute properly.
 
-2. Test the created file by opening the local index.html in a web browser. The index.html and the data.js file has to be in the same directory. You need to have Internet access since the HTML file uses the Leaflet library, which is fetched from the Leaflet CDN.
+2. Test the created file by opening the local index.html in a web browser (preferably Firefox). The index.html and the data.geojson file has to be in the same directory. You need to have Internet access since the HTML file uses the Leaflet library, which is fetched from the Leaflet CDN.
 
 ### Upload the files
 
-1. Upload index.html and data.js to a publicly-accessible web server.
+1. Upload index.html and data.geojson to a publicly-accessible web server.
 
 2. If you want the Bing Maps Aerial base layers, do the following:
 
