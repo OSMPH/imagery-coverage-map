@@ -9,10 +9,12 @@
 <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
 <script src="TileLayer.Bing.js"></script>
 <script src="bingkey.js"></script>
-<script src="data.js"></script>
 <script type="text/javascript">
 
+var XhrObject = new XMLHttpRequest();
+
 var Map;
+var LayersControl;
 
 window.onload = function() {
 
@@ -72,8 +74,33 @@ window.onload = function() {
    // Add the MapQuest tile layer to the map (default)
    Map.addLayer(mapquestLayer);
 
-   // Process the imagery coverage data
-   var outlineGroups = [];
+   // Add layer control to map (base layers first)
+   LayersControl = new L.Control.Layers(tilesLayers);
+   Map.addControl(LayersControl);
+
+   // Add event handlers to update the permalink target
+   Map.on('zoomend', updatePermalink);
+   Map.on('moveend', updatePermalink);
+
+   // Add event handlers for the edit buttons
+   document.getElementById('editpotlatch').onclick = editInPotlatch;
+   document.getElementById('editjosm'    ).onclick = editInJosm;
+
+   // Load the imagery coverage data
+   XhrObject.onreadystatechange = processOutlines;
+   XhrObject.open('GET', 'data.geojson', true);
+   XhrObject.overrideMimeType('text/plain');
+   XhrObject.send(null);
+}
+
+function processOutlines() {
+
+   if (XhrObject.readyState != 4) return;
+
+   // Load the imagery coverage data
+   var data = JSON.parse(XhrObject.responseText);
+
+   // Process the imagery coverage data (each outline group)
    for (i = 0; i < data.features.length; i++) {
 
       var feature = data.features[i];
@@ -93,25 +120,14 @@ window.onload = function() {
          }
       });
 
-      outlineGroups[feature.id] = outlinesLayer;
-
       // Bing is shown by default
       if (feature.id.match(/^Bing/)) {
          Map.addLayer(outlinesLayer);
       }
+
+      // Add the processed outline group to the layer control
+      LayersControl.addOverlay(outlinesLayer, feature.id);
    }
-
-   // Add layer control to map   
-   var layersControl = new L.Control.Layers(tilesLayers, outlineGroups);
-   Map.addControl(layersControl);
-
-   // Add event handlers to update the permalink target
-   Map.on('zoomend', updatePermalink);
-   Map.on('moveend', updatePermalink);
-
-   // Add event handlers for the edit buttons
-   document.getElementById('editpotlatch').onclick = editInPotlatch;
-   document.getElementById('editjosm'    ).onclick = editInJosm;
 }
 
 function updatePermalink() {
