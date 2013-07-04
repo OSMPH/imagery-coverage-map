@@ -43,6 +43,6 @@ The basic workflow for publishing such a map is as follows:
       bingKey = "<Bing Maps API Key>";
       ```
 
-   2. Download the [Leaflet Bing layer JavaScript](https://gist.github.com/1221998) under the filename "TileLayer.Bing.js" then place a copy into the same directory as index.html and data.geojson.
+   2. Download the [Leaflet Bing layer JavaScript](https://github.com/shramov/leaflet-plugins/blob/master/layer/tile/Bing.js) under the filename "Bing.js" then place a copy into the same directory as index.html and data.geojson.
 
 3. Test by accessing the uploaded index.html file in a web browser.

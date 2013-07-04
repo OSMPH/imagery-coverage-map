@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.ie.css" />
 <![endif]-->
 <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script>
-<script src="TileLayer.Bing.js"></script>
+<script src="Bing.js"></script>
 <script src="bingkey.js"></script>
 <script type="text/javascript">
 
@@ -65,8 +65,8 @@ window.onload = function() {
 
    // Create the Bing Maps Aerial tile layers
    if (typeof bingKey != 'undefined') {
-      var bingLayer        = new L.TileLayer.Bing(bingKey, 'Aerial',           {});
-      var bingLabeledLayer = new L.TileLayer.Bing(bingKey, 'AerialWithLabels', {});
+      var bingLayer        = new L.BingLayer(bingKey, {type: 'Aerial'          });
+      var bingLabeledLayer = new L.BingLayer(bingKey, {type: 'AerialWithLabels'});
       tilesLayers["Bing Aerial"          ] = bingLayer;
       tilesLayers["Bing Aerial (labeled)"] = bingLabeledLayer;
    };
