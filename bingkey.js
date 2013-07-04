@@ -1,1 +1,1 @@
-var bingKey = 'Ahxau5mtl944aCyAb8tfmrLebWENWZDXEmMIQWRaRQjTho2U0NkHqAUpcT1nTW1v';
+var bingKey = 'Aj85Esu4rQSFcIvlpDGM8s4ElvYr1GSoUw7r8SJ2pvnA1mLiTSgzNgjE4ijqaLJn';
